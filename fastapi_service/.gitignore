@@ -20,7 +20,8 @@ site_build
 venv
 docs.zip
 archive.zip
-
+# blad
+# push and qalesan
 # vim temporary files
 *~
 .*.sw?
