@@ -1,0 +1,53 @@
+version: '3'
+
+services:
+  django:
+    build:
+      context: ./django_service
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_HOST=eccomerce-db
+      - DB_NAME=Ecommercedb
+      - DB_USER=postgres
+      - DB_PASS=volimte741
+      - PG_PORT=5432
+    volumes:
+      - ./django_service:/app
+    command: >
+      sh -c "python manage.py makemigrations &&
+          python manage.py migrate &&
+          python manage.py runserver 0.0.0.0:8000"
+    depends_on:
+      - eccomerce-db
+
+  fastapi:
+    build:
+      context: ./fastapi_service
+    ports:
+      - "8001:8001"
+    environment:
+      - DB_HOST=eccomerce-db
+      - DB_NAME=Ecommercedb
+      - DB_USER=postgres
+      - DB_PASS=volimte741
+      - PG_PORT=5432
+    volumes:
+      - ./fastapi_service:/app
+    depends_on:
+      - eccomerce-db
+
+  eccomerce-db:
+    container_name: eccomerce-db
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=volimte741
+      - POSTGRES_DB=Ecommercedb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
