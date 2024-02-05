@@ -39,6 +39,10 @@ class Admins(Base):
     gender = Column(String)
 
 
+
+
+# factory code
+
 # Create the table in the database
 Base.metadata.create_all(bind=engine)
 
